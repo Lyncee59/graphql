@@ -1,0 +1,21 @@
+type Log {
+    _id: ID!
+    Version: Int!
+    SchemaVersion: Int!
+    CreatedAt: String
+    Type: Int!
+    Message: String!
+    MachineName: String!
+    Source: String!
+    Exception: String!
+    StackTrace: String!
+    CustomerId: Int!
+    TimeGenerated: String!
+    LogDetails: String
+    LogCategory: String
+    UserName: String
+}
+
+type Query {
+    logs: [Log!]!
+}
