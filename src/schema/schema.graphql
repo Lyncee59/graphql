@@ -1,21 +1,31 @@
+scalar DateTime
+
+type Customer {
+  CustomerId: Int!
+  CustomerGuid: String!
+  LocatorId: String!
+}
+
 type Log {
-    _id: ID!
-    Version: Int!
-    SchemaVersion: Int!
-    CreatedAt: String
-    Type: Int!
-    Message: String!
-    MachineName: String!
-    Source: String!
-    Exception: String!
-    StackTrace: String!
-    CustomerId: Int!
-    TimeGenerated: String!
-    LogDetails: String
-    LogCategory: String
-    UserName: String
+  _id: ID!
+  Version: Int
+  SchemaVersion: Int
+  CreatedAt: DateTime
+  Type: Int
+  Message: String
+  MachineName: String
+  Source: String
+  Exception: String
+  StackTrace: String
+  CustomerId: Int
+  Customer: Customer
+  TimeGenerated: String
+  LogDetails: String
+  LogCategory: String
+  UserName: String
 }
 
 type Query {
-    logs: [Log!]!
+  logs: [Log!]!
+  searchLogs(search: String!, limit: Int, skip: Int): [Log!]!
 }

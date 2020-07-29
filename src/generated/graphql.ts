@@ -1,6 +1,7 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
+export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -8,22 +9,32 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
+};
+
+
+export type Customer = {
+  __typename?: 'Customer';
+  CustomerId: Scalars['Int'];
+  CustomerGuid: Scalars['String'];
+  LocatorId: Scalars['String'];
 };
 
 export type Log = {
   __typename?: 'Log';
   _id: Scalars['ID'];
-  Version: Scalars['Int'];
-  SchemaVersion: Scalars['Int'];
-  CreatedAt?: Maybe<Scalars['String']>;
-  Type: Scalars['Int'];
-  Message: Scalars['String'];
-  MachineName: Scalars['String'];
-  Source: Scalars['String'];
-  Exception: Scalars['String'];
-  StackTrace: Scalars['String'];
-  CustomerId: Scalars['Int'];
-  TimeGenerated: Scalars['String'];
+  Version?: Maybe<Scalars['Int']>;
+  SchemaVersion?: Maybe<Scalars['Int']>;
+  CreatedAt?: Maybe<Scalars['DateTime']>;
+  Type?: Maybe<Scalars['Int']>;
+  Message?: Maybe<Scalars['String']>;
+  MachineName?: Maybe<Scalars['String']>;
+  Source?: Maybe<Scalars['String']>;
+  Exception?: Maybe<Scalars['String']>;
+  StackTrace?: Maybe<Scalars['String']>;
+  CustomerId?: Maybe<Scalars['Int']>;
+  Customer?: Maybe<Customer>;
+  TimeGenerated?: Maybe<Scalars['String']>;
   LogDetails?: Maybe<Scalars['String']>;
   LogCategory?: Maybe<Scalars['String']>;
   UserName?: Maybe<Scalars['String']>;
@@ -32,6 +43,14 @@ export type Log = {
 export type Query = {
   __typename?: 'Query';
   logs: Array<Log>;
+  searchLogs: Array<Log>;
+};
+
+
+export type QuerySearchLogsArgs = {
+  search: Scalars['String'];
+  limit?: Maybe<Scalars['Int']>;
+  skip?: Maybe<Scalars['Int']>;
 };
 
 
@@ -112,37 +131,53 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Log: ResolverTypeWrapper<Log>;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
+  DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
+  Customer: ResolverTypeWrapper<Customer>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Log: ResolverTypeWrapper<Log>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
   Query: ResolverTypeWrapper<{}>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Log: Log;
-  ID: Scalars['ID'];
+  DateTime: Scalars['DateTime'];
+  Customer: Customer;
   Int: Scalars['Int'];
   String: Scalars['String'];
+  Log: Log;
+  ID: Scalars['ID'];
   Query: {};
   Boolean: Scalars['Boolean'];
 };
 
+export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
+  name: 'DateTime';
+}
+
+export type CustomerResolvers<ContextType = any, ParentType extends ResolversParentTypes['Customer'] = ResolversParentTypes['Customer']> = {
+  CustomerId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  CustomerGuid?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  LocatorId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
 export type LogResolvers<ContextType = any, ParentType extends ResolversParentTypes['Log'] = ResolversParentTypes['Log']> = {
   _id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  Version?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  SchemaVersion?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  CreatedAt?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  Type?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  Message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  MachineName?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  Source?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  Exception?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  StackTrace?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  CustomerId?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  TimeGenerated?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  Version?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  SchemaVersion?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  CreatedAt?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  Type?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  Message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  MachineName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  Source?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  Exception?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  StackTrace?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  CustomerId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  Customer?: Resolver<Maybe<ResolversTypes['Customer']>, ParentType, ContextType>;
+  TimeGenerated?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   LogDetails?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   LogCategory?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   UserName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -151,9 +186,12 @@ export type LogResolvers<ContextType = any, ParentType extends ResolversParentTy
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   logs?: Resolver<Array<ResolversTypes['Log']>, ParentType, ContextType>;
+  searchLogs?: Resolver<Array<ResolversTypes['Log']>, ParentType, ContextType, RequireFields<QuerySearchLogsArgs, 'search'>>;
 };
 
 export type Resolvers<ContextType = any> = {
+  DateTime?: GraphQLScalarType;
+  Customer?: CustomerResolvers<ContextType>;
   Log?: LogResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
 };

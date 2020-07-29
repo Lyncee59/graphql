@@ -1,1 +1,2 @@
-export { default as LogsProvider } from './LogsProvider'
+export { default as CustomerProvider } from './CustomerProvider'
+export { default as LogProvider } from './LogProvider'

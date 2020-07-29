@@ -1,9 +1,33 @@
-import { IResolvers } from './generated/graphql';
+import { IResolvers } from "./generated/graphql";
+import { Log, QuerySearchLogsArgs } from "../src/generated/graphql";
+import { Context } from "../src/types";
+import { DateTime } from "./scalars/DateTime";
 
-// Resolvers define the technique for fetching the types in the
-// schema.  We'll retrieve books from the "books" array above.
 export const resolvers: IResolvers = {
   Query: {
-    logs: (_, __, ctx) => ctx.dataSources.logsProvider.getLogs()
-  }
+    logs: async (_: {}, __: any, ctx: Context) => {
+      return await ctx.dataSources.logProvider.getLogs();
+    },
+    searchLogs: async (_: {}, args: QuerySearchLogsArgs, ctx: Context) => {
+      const limit = args.limit || 50;
+      const skip = args.skip || 0;
+      return await ctx.dataSources.logProvider.searchLogs(
+        args.search,
+        limit,
+        skip
+      );
+    },
+  },
+  Log: {
+    Customer: async (_: Log, __: any, ctx: Context) => {
+      console.log(_.CustomerId);
+      if (_.CustomerId == null) {
+        return null;
+      }
+      return await ctx.dataSources.customerProvider.getCustomerPerId(
+        _.CustomerId
+      );
+    },
+  },
+  DateTime: DateTime,
 };
