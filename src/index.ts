@@ -33,6 +33,9 @@ const server = new ApolloServer({
   // @ts-ignore
   resolvers,
   dataSources,
+  engine: {
+    reportSchema: true,
+  },
 });
 
 server.listen().then(({ url }) => {

@@ -34,7 +34,7 @@ export type Log = {
   StackTrace?: Maybe<Scalars['String']>;
   CustomerId?: Maybe<Scalars['Int']>;
   Customer?: Maybe<Customer>;
-  TimeGenerated?: Maybe<Scalars['String']>;
+  TimeGenerated?: Maybe<Scalars['DateTime']>;
   LogDetails?: Maybe<Scalars['String']>;
   LogCategory?: Maybe<Scalars['String']>;
   UserName?: Maybe<Scalars['String']>;
@@ -177,7 +177,7 @@ export type LogResolvers<ContextType = any, ParentType extends ResolversParentTy
   StackTrace?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   CustomerId?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   Customer?: Resolver<Maybe<ResolversTypes['Customer']>, ParentType, ContextType>;
-  TimeGenerated?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  TimeGenerated?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   LogDetails?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   LogCategory?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   UserName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;

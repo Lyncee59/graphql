@@ -19,7 +19,7 @@ type Log {
   StackTrace: String
   CustomerId: Int
   Customer: Customer
-  TimeGenerated: String
+  TimeGenerated: DateTime
   LogDetails: String
   LogCategory: String
   UserName: String
